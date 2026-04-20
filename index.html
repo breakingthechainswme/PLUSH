@@ -665,7 +665,7 @@ function handleSubmit(e) {
   };
 
   // Paste your Zapier / Make webhook URL here to auto-log leads to Google Sheets:
-  const WEBHOOK_URL = "";
+  const WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/27289551/ujijd2a/";
   if (WEBHOOK_URL) {
     fetch(WEBHOOK_URL, {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(lead)}).catch(()=>{});
   }
