@@ -667,14 +667,36 @@ function handleSubmit(e) {
   // Paste your Zapier / Make webhook URL here to auto-log leads to Google Sheets:
   const WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/27289551/ujijd2a/";
 
-  // Use no-cors mode to bypass CORS restrictions from GitHub Pages
+  // Send via hidden form POST — bypasses CORS completely
   if (WEBHOOK_URL) {
-    fetch(WEBHOOK_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(lead)
-    }).catch(()=>{});
+    const iframe = document.createElement("iframe");
+    iframe.name = "zap_iframe";
+    iframe.style.display = "none";
+    document.body.appendChild(iframe);
+
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = WEBHOOK_URL;
+    form.target = "zap_iframe";
+    form.style.display = "none";
+
+    // Add each field as a hidden input
+    Object.entries(lead).forEach(([key, val]) => {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = key;
+      input.value = val;
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+
+    // Clean up after submission
+    setTimeout(() => {
+      document.body.removeChild(form);
+      document.body.removeChild(iframe);
+    }, 3000);
   }
   console.log("Lead captured:", lead);
 
