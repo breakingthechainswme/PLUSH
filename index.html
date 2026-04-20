@@ -635,8 +635,8 @@ footer p{font-size:.72rem;color:rgba(255,255,255,.27);line-height:1.55}
 </footer>
 
 <script>
-document.querySelectorAll(".src-chip").forEach(chip => {
-  chip.addEventListener("click", () => chip.classList.toggle("selected"));
+document.querySelectorAll(".src-chip input").forEach(cb => {
+  cb.addEventListener("change", () => { cb.closest(".src-chip").classList.toggle("selected", cb.checked); });
 });
 
 function handleSubmit(e) {
